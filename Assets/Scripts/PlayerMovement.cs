@@ -36,14 +36,16 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
         //Change position of HookPoint relative to Motion
-        if (dirX == 1)
+        if (dirX > 0)
         {
 
-            hookReference.transform.localPosition = new Vector2(1f, .5f);
+            //hookReference.transform.localPosition = new Vector2(1f, .5f);
+            this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
-        else if (dirX == -1)
+        else if (dirX < 0)
         {
-            hookReference.transform.localPosition = new Vector2(-1f, .5f);
+            //hookReference.transform.localPosition = new Vector2(-1f, .5f);
+            this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
         //Reset Hook Status
