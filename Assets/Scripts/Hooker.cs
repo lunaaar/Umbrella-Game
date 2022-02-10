@@ -6,6 +6,7 @@ public class Hooker : MonoBehaviour
 {
     [SerializeField]
     private bool goodToHook;
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
@@ -13,14 +14,16 @@ public class Hooker : MonoBehaviour
         goodToHook = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "HookPoint")
+        if (collision.tag == "HookPoint")
         {
             goodToHook = true;
+
+            rb = collision.attachedRigidbody;
+
             //Debug.Log("Tried to Hook");
         }
-
     }
 
     public bool getHookStatus()
@@ -31,5 +34,10 @@ public class Hooker : MonoBehaviour
     public void setHookStatus(bool stat)
     {
         goodToHook = stat;
+    }
+
+    public Rigidbody2D getRB()
+    {
+        return rb;
     }
 }

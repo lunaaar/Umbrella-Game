@@ -7,12 +7,18 @@ public class PlayerMovement : MonoBehaviour
     //Speed Variables
     public float moveSpeed = 3f;
     public float jumpSpeed = 4f;
+
+
+    public float leftAngle = -35f;
+    public float rightAngle = 35f;
     public float swingSpeed = 15f;
 
+    public float angle;
 
-    [SerializeField]
+
     private Rigidbody2D rb;
     private BoxCollider2D bc;
+    private DistanceJoint2D dj;
 
     public LayerMask jumpableGround;
 
@@ -25,6 +31,14 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody2D>();
         bc = this.GetComponent<BoxCollider2D>();
+        dj = this.GetComponent<DistanceJoint2D>();
+
+
+
+
+        //Sets the anchor point to us then turns the Joint off.
+        dj.anchor.Set(0f, 0f);
+        dj.enabled = false;
     }
 
     // Update is called once per frame
@@ -64,9 +78,18 @@ public class PlayerMovement : MonoBehaviour
         //Can only Swing in the Air
         if (Input.GetKey(KeyCode.Space) && hook.getHookStatus() == true && !isGrounded())
         {
-
-            //transform.RotateAround(rotateAround.transform.position, Vector3.forward, swingSpeed * Time.deltaTime);
             Debug.Log("Test");
+
+            //Rotaiton movement
+
+
+            dj.connectedBody = hook.getRB();
+            dj.enabled = true;
+
+        }
+        else
+        {
+            dj.enabled = false;
         }
 
 
