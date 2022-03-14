@@ -17,28 +17,33 @@ public class PlayerMovement : MonoBehaviour
 
 
     private Rigidbody2D rb;
-    private BoxCollider2D bc;
+    private CapsuleCollider2D cc;
     private DistanceJoint2D dj;
+    private SpriteRenderer sr;
 
     public LayerMask jumpableGround;
 
-    public Hooker hook;
+    //public Hooker hook
+    [SerializeField]
+    private bool hookAvailable;
+    [SerializeField]
+    private bool stillConnected;
 
-    public GameObject hookReference;
+    public Sprite baseSprite;
+    public Sprite secondSprite;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
-        bc = this.GetComponent<BoxCollider2D>();
+        cc = this.GetComponent<CapsuleCollider2D>();
         dj = this.GetComponent<DistanceJoint2D>();
 
-
-
+        sr = this.GetComponent<SpriteRenderer>();
 
         //Sets the anchor point to us then turns the Joint off.
-        dj.anchor.Set(0f, 0f);
         dj.enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -50,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
         //Change position of HookPoint relative to Motion
-        if (dirX > 0)
+        /**if (dirX > 0)
         {
 
             //hookReference.transform.localPosition = new Vector2(1f, .5f);
@@ -60,43 +65,77 @@ public class PlayerMovement : MonoBehaviour
         {
             //hookReference.transform.localPosition = new Vector2(-1f, .5f);
             this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        }
+        }**/
+
+        sr.sprite = baseSprite;
 
         //Reset Hook Status
         if (isGrounded())
         {
-            hook.setHookStatus(false);
+            hookAvailable = false;
+            stillConnected = false;
         }
 
         //Jumping
-        if (Input.GetKey(KeyCode.UpArrow) && isGrounded())
+        if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && isGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
 
         }
 
         //Can only Swing in the Air
-        if (Input.GetKey(KeyCode.Space) && hook.getHookStatus() == true && !isGrounded())
+        if (Input.GetKey(KeyCode.LeftShift) && hookAvailable && !isGrounded())
         {
-            Debug.Log("Test");
+            //Debug.Log("Test");
 
             //Rotaiton movement
-
-
-            dj.connectedBody = hook.getRB();
             dj.enabled = true;
 
         }
         else
         {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                //Debug.Log("TEST2");
+            }
+            
             dj.enabled = false;
         }
 
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        stillConnected = true;
+
+        if (collision.tag == "HookPoint")
+        {
+            hookAvailable = true;
+            dj.connectedBody = collision.attachedRigidbody;
+
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.tag == "HookPoint")
+        {
+            Debug.Log("TEST");
+        }
+        
+        if (collision.tag == "HookPoint" && stillConnected == false)
+        {
+            Debug.Log("TEST3");
+            sr.sprite = secondSprite;
+            hookAvailable = false;
+        }
+    }
+
     private bool isGrounded()
     {
-        return Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.BoxCast(cc.bounds.center, cc.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 }
