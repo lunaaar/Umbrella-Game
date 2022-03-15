@@ -587,9 +587,9 @@ GameObject:
   - component: {fileID: 692418670}
   - component: {fileID: 692418672}
   - component: {fileID: 692418674}
+  - component: {fileID: 692418673}
   - component: {fileID: 692418671}
   - component: {fileID: 692418675}
-  - component: {fileID: 692418673}
   m_Layer: 0
   m_Name: Game Player
   m_TagString: Player
@@ -625,14 +625,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   jumpSpeed: 4
-  leftAngle: -35
-  rightAngle: 35
-  swingSpeed: 300
-  angle: 0
   jumpableGround:
     serializedVersion: 2
     m_Bits: 64
-  canHook: 0
+  hookAvailable: 0
   baseSprite: {fileID: 21300000, guid: e160d749e68020b458e7c985bac10c4b, type: 3}
   secondSprite: {fileID: 21300000, guid: b24800f9da311a544968be9c35363f0c, type: 3}
 --- !u!50 &692418672
@@ -755,6 +751,7 @@ GameObject:
   - component: {fileID: 893557264}
   - component: {fileID: 893557263}
   - component: {fileID: 893557267}
+  - component: {fileID: 893557268}
   m_Layer: 0
   m_Name: Swing Square
   m_TagString: Untagged
@@ -769,7 +766,7 @@ DistanceJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893557262}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 143930654}
@@ -862,7 +859,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893557262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.69, y: 7.59, z: 0}
+  m_LocalPosition: {x: 6.51, y: 8.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -881,6 +878,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2: {fileID: 2110860643}
+--- !u!233 &893557268
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893557262}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 143930654}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0.5, y: 0}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
 --- !u!1 &1187515407
 GameObject:
   m_ObjectHideFlags: 0

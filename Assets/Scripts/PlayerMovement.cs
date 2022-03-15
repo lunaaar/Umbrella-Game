@@ -5,16 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //Speed Variables
-    public float moveSpeed = 3f;
-    public float jumpSpeed = 4f;
-
-
-    public float leftAngle = -35f;
-    public float rightAngle = 35f;
-    public float swingSpeed = 15f;
-
-    public float angle;
-
+    [SerializeField]
+    private float moveSpeed = 3f;
+    [SerializeField]
+    private float jumpSpeed = 4f;
 
     private Rigidbody2D rb;
     private CapsuleCollider2D cc;
@@ -23,11 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask jumpableGround;
 
-    //public Hooker hook
     [SerializeField]
     private bool hookAvailable;
-    [SerializeField]
-    private bool stillConnected;
 
     public Sprite baseSprite;
     public Sprite secondSprite;
@@ -49,88 +40,57 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Hooker.SetActive(false);
-        //Left and Right Movement
+        
+
+        //Gets Input from unity horizontal axis. Raw determines that it is always only -1, 0, or 1.
         float dirX = Input.GetAxisRaw("Horizontal");
+
+        //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-
-        //Change position of HookPoint relative to Motion
-        /**if (dirX > 0)
-        {
-
-            //hookReference.transform.localPosition = new Vector2(1f, .5f);
-            this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        }
-        else if (dirX < 0)
-        {
-            //hookReference.transform.localPosition = new Vector2(-1f, .5f);
-            this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        }**/
 
         sr.sprite = baseSprite;
 
-        //Reset Hook Status
+        //Checks if the player is grounded, if so resets our ability to have the option to hook.
         if (isGrounded())
         {
             hookAvailable = false;
-            stillConnected = false;
         }
 
-        //Jumping
+        //Checks to see if any of "Space, W, Up Arrow" are pressed and if we are grounded, if so we jump.
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && isGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
 
         }
 
-        //Can only Swing in the Air
+        // Checks to see if the condition that we can hook as been met.
+        // The current condition is as follows: Key is being pressed, we are within the radius of a hookpoint to hook, and we are not grounded.
         if (Input.GetKey(KeyCode.LeftShift) && hookAvailable && !isGrounded())
         {
-            //Debug.Log("Test");
-
-            //Rotaiton movement
+            // Turns on the distance joint to perform the swing.
             dj.enabled = true;
 
         }
+        // If any of the condition is not met, meaning we are not attempting to swing. We turn the DistanceJoint2D off.
         else
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                //Debug.Log("TEST2");
-            }
             
             dj.enabled = false;
         }
 
+        if (dj.enabled)
+        {
+
+        }
 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        stillConnected = true;
-
         if (collision.tag == "HookPoint")
         {
             hookAvailable = true;
             dj.connectedBody = collision.attachedRigidbody;
-
-
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-        if (collision.tag == "HookPoint")
-        {
-            Debug.Log("TEST");
-        }
-        
-        if (collision.tag == "HookPoint" && stillConnected == false)
-        {
-            Debug.Log("TEST3");
-            sr.sprite = secondSprite;
-            hookAvailable = false;
         }
     }
 
