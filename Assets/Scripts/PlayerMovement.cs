@@ -37,6 +37,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool withinHookRadius;
 
+    /// <summary>
+    /// Boolean value that is associated with whether or not the directional input will be applied.
+    /// </summary>
+    [SerializeField]
+    private bool canMove;
 
     //Sprite Variables, used for testing purposes. Will have to encorperate something later but will almost certainly be removed or changed.
     // TODO: Look into this.
@@ -53,19 +58,31 @@ public class PlayerMovement : MonoBehaviour
 
         //Sets the anchor point to us then turns the Joint off.
         distanceJoint.enabled = false;
+
+        canMove = true;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
         // TODO: add condition that input is only taken when we are not actively hooking.
-        
+        float horizontalInput;
+        if (canMove)
+        {
+             horizontalInput = Input.GetAxisRaw("Horizontal");
+        }
+        else
+        {
+            horizontalInput = rigidBody.velocity.x / moveSpeed;
+        }
+
         //Gets Input from unity horizontal axis. Raw determines that it is always only -1, 0, or 1.
-        float dirX = Input.GetAxisRaw("Horizontal");
+        //float horizontalInput = Input.GetAxisRaw("Horizontal");
 
         //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
-        rigidBody.velocity = new Vector2(dirX * moveSpeed, rigidBody.velocity.y);
+        rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
+
+        Debug.Log(rigidBody.velocity.x);
 
         spriteRenderer.sprite = baseSprite;
 
@@ -88,16 +105,12 @@ public class PlayerMovement : MonoBehaviour
         {
             // Turns on the distance joint to perform the swing.
             distanceJoint.enabled = true;
-            
-            //Debug.Log("TEST");
 
-            // TODO: Note that the above Debug is called every frame this condition is met to be true, add here some form of duration control that limits how long
-            // a user can be hooked for.
+            canMove = false;
         }
-        // If any of the condition is not met, meaning we are not attempting to swing. We turn the DistanceJoint2D off.
-        else
+        else // If any of the condition is not met, meaning we are not attempting to swing. We turn the DistanceJoint2D off.
         {
-            
+            canMove = true;
             distanceJoint.enabled = false;
         }
     }
