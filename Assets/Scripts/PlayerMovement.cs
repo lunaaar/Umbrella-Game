@@ -115,8 +115,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Checks to see if we collide with a Trigger specifically with the tag HookPoint.
         if (collision.tag == "HookPoint")
         {
+            //If we do trigger properly, allow the option to hook and set the rigidbody of the distance joint to the hookpoint.
             withinHookRadius = true;
             distanceJoint.connectedBody = collision.attachedRigidbody;
         }
@@ -131,8 +133,14 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
+    /// <summary>
+    /// Checks for if the player is actively swinging, which is based on the following condition:
+    ///     Are we presing the associated button, we are within the Trigger of a Hook Point, and we are in the air.
+    /// </summary>
+    /// <returns></returns>
     private bool isSwinging()
     {
+        // TODO: Change the Input to have a field such that the button is configurable.
         return Input.GetKey(KeyCode.LeftShift) && withinHookRadius && !isGrounded();
     }
 }
