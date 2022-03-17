@@ -69,15 +69,13 @@ public class PlayerMovement : MonoBehaviour
         float horizontalInput;
         if (canMove)
         {
-             horizontalInput = Input.GetAxisRaw("Horizontal");
+            //Gets Input from unity horizontal axis. Raw determines that it is always only -1, 0, or 1.
+            horizontalInput = Input.GetAxisRaw("Horizontal");
         }
         else
         {
             horizontalInput = rigidBody.velocity.x / moveSpeed;
         }
-
-        //Gets Input from unity horizontal axis. Raw determines that it is always only -1, 0, or 1.
-        //float horizontalInput = Input.GetAxisRaw("Horizontal");
 
         //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
         rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
@@ -101,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Checks to see if the condition that we can hook as been met.
         // The current condition is as follows: Key is being pressed, we are within the radius of a hookpoint to hook, and we are not grounded.
-        if (Input.GetKey(KeyCode.LeftShift) && withinHookRadius && !isGrounded())
+        if (isSwinging())
         {
             // Turns on the distance joint to perform the swing.
             distanceJoint.enabled = true;
@@ -131,5 +129,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded()
     {
         return Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+    }
+
+    private bool isSwinging()
+    {
+        return Input.GetKey(KeyCode.LeftShift) && withinHookRadius && !isGrounded();
     }
 }
