@@ -128,7 +128,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if(collision.tag == "HookPoint" && !collision.attachedRigidbody.Distance(capsuleCollider).isOverlapped)
         {
-            Debug.Log("TEST");
             withinHookRadius = false;
         }
     }
