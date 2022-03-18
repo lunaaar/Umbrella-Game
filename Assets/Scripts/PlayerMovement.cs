@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer = this.GetComponent<SpriteRenderer>();
 
         //Sets the anchor point to us then turns the Joint off.
+        distanceJoint.connectedBody = rigidBody;
         distanceJoint.enabled = false;
 
         canMove = true;
@@ -97,6 +98,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        if (distanceJoint.distance > 1f)
+        {
+            withinHookRadius = false;
+        }
+        
         // Checks to see if the condition that we can hook as been met.
         // The current condition is as follows: Key is being pressed, we are within the radius of a hookpoint to hook, and we are not grounded.
         if (isSwinging())
@@ -121,14 +127,6 @@ public class PlayerMovement : MonoBehaviour
             //If we do trigger properly, allow the option to hook and set the rigidbody of the distance joint to the hookpoint.
             withinHookRadius = true;
             distanceJoint.connectedBody = collision.attachedRigidbody;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.tag == "HookPoint" && !collision.attachedRigidbody.Distance(capsuleCollider).isOverlapped)
-        {
-            withinHookRadius = false;
         }
     }
 
