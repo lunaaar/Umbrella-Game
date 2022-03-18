@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
         rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
 
-        Debug.Log(rigidBody.velocity.x);
+        //Debug.Log(rigidBody.velocity.x);
 
         spriteRenderer.sprite = baseSprite;
 
@@ -121,6 +121,15 @@ public class PlayerMovement : MonoBehaviour
             //If we do trigger properly, allow the option to hook and set the rigidbody of the distance joint to the hookpoint.
             withinHookRadius = true;
             distanceJoint.connectedBody = collision.attachedRigidbody;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.tag == "HookPoint" && !collision.attachedRigidbody.Distance(capsuleCollider).isOverlapped)
+        {
+            Debug.Log("TEST");
+            withinHookRadius = false;
         }
     }
 
