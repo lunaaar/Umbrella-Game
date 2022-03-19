@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//<summary>
-// This is being left around. However please have it be noted that this code is not used at all anymore.
-
+/// <summary>
+/// This is being left around. However please have it be noted that this code is not used at all anymore.
+/// </summary>
 
 public class Hooker : MonoBehaviour
 {

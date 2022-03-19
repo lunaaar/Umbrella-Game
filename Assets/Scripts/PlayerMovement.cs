@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer = this.GetComponent<SpriteRenderer>();
 
         //Sets the anchor point to us then turns the Joint off.
+        distanceJoint.connectedBody = rigidBody;
         distanceJoint.enabled = false;
 
         canMove = true;
@@ -80,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
         rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
 
-        Debug.Log(rigidBody.velocity.x);
+        //Debug.Log(rigidBody.velocity.x);
 
         spriteRenderer.sprite = baseSprite;
 
@@ -97,6 +98,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        if (distanceJoint.distance > 1f)
+        {
+            withinHookRadius = false;
+        }
+        
         // Checks to see if the condition that we can hook as been met.
         // The current condition is as follows: Key is being pressed, we are within the radius of a hookpoint to hook, and we are not grounded.
         if (isSwinging())
@@ -115,8 +121,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Checks to see if we collide with a Trigger specifically with the tag HookPoint.
         if (collision.tag == "HookPoint")
         {
+            //If we do trigger properly, allow the option to hook and set the rigidbody of the distance joint to the hookpoint.
             withinHookRadius = true;
             distanceJoint.connectedBody = collision.attachedRigidbody;
         }
@@ -131,8 +139,14 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
+    /// <summary>
+    /// Checks for if the player is actively swinging, which is based on the following condition:
+    ///     Are we presing the associated button, we are within the Trigger of a Hook Point, and we are in the air.
+    /// </summary>
+    /// <returns></returns>
     private bool isSwinging()
     {
+        // TODO: Change the Input to have a field such that the button is configurable.
         return Input.GetKey(KeyCode.LeftShift) && withinHookRadius && !isGrounded();
     }
 }
