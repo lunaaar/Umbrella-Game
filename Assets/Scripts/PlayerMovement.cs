@@ -72,21 +72,23 @@ public class PlayerMovement : MonoBehaviour
         {
             //Gets Input from unity horizontal axis. Raw determines that it is always only -1, 0, or 1.
             horizontalInput = Input.GetAxisRaw("Horizontal");
+            rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
         }
         else
         {
             horizontalInput = rigidBody.velocity.x / moveSpeed;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, rigidBody.velocity.y);
         }
 
         //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
-        rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
+        //rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
 
         //Debug.Log(rigidBody.velocity.x);
 
         spriteRenderer.sprite = baseSprite;
 
         //Checks if the player is grounded, if so resets our ability to have the option to hook.
-        if (isGrounded())
+        if (isGrounded() || (distanceJoint.distance > 1f && distanceJoint.enabled))
         {
             withinHookRadius = false;
         }
@@ -97,11 +99,6 @@ public class PlayerMovement : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpSpeed);
 
         }
-
-        if (distanceJoint.distance > 1f)
-        {
-            withinHookRadius = false;
-        }
         
         // Checks to see if the condition that we can hook as been met.
         // The current condition is as follows: Key is being pressed, we are within the radius of a hookpoint to hook, and we are not grounded.
@@ -109,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         {
             // Turns on the distance joint to perform the swing.
             distanceJoint.enabled = true;
-
             canMove = false;
         }
         else // If any of the condition is not met, meaning we are not attempting to swing. We turn the DistanceJoint2D off.
@@ -146,6 +142,11 @@ public class PlayerMovement : MonoBehaviour
     /// <returns></returns>
     private bool isSwinging()
     {
+        if ((distanceJoint.distance > 1f && distanceJoint.enabled))
+        {
+            withinHookRadius = false;
+        }
+
         // TODO: Change the Input to have a field such that the button is configurable.
         return Input.GetKey(KeyCode.LeftShift) && withinHookRadius && !isGrounded();
     }
