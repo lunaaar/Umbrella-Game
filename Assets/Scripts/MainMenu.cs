@@ -18,4 +18,10 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
         Debug.Log("Quit");
     }
+
+    public void LoadGame()
+    {
+        SaveData data = SaveSystem.LoadSlot();
+        SceneManager.LoadScene(data.level);
+    }
 }
