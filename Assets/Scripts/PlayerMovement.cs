@@ -91,6 +91,14 @@ public class PlayerMovement : MonoBehaviour
             withinHookRadius = false;
         }
 
+        //just a debug implementation of Save so we can test loading
+        if (Input.GetKey(KeyCode.U))
+        {
+            SaveSystem.SaveSlot();
+            Debug.Log("Game Saved");
+        }
+
+
         //Checks to see if any of "Space, W, Up Arrow" are pressed and if we are grounded, if so we jump.
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && isGrounded())
         {
