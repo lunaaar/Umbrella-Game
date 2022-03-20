@@ -72,14 +72,15 @@ public class PlayerMovement : MonoBehaviour
         {
             //Gets Input from unity horizontal axis. Raw determines that it is always only -1, 0, or 1.
             horizontalInput = Input.GetAxisRaw("Horizontal");
+            rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
         }
         else
         {
-            horizontalInput = rigidBody.velocity.x / moveSpeed;
+            //rigidBody.velocity = new Vector2(rigidBody.velocity.x, rigidBody.velocity.y);
         }
 
         //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
-        rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
+        //rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
 
         //Debug.Log(rigidBody.velocity.x);
 
@@ -105,19 +106,13 @@ public class PlayerMovement : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpSpeed);
 
         }
-
-        if (distanceJoint.distance > 1f)
-        {
-            withinHookRadius = false;
-        }
         
         // Checks to see if the condition that we can hook as been met.
         // The current condition is as follows: Key is being pressed, we are within the radius of a hookpoint to hook, and we are not grounded.
-        if (isSwinging())
+        if (Input.GetKey(KeyCode.LeftShift) &&  canSwing())
         {
             // Turns on the distance joint to perform the swing.
             distanceJoint.enabled = true;
-
             canMove = false;
         }
         else // If any of the condition is not met, meaning we are not attempting to swing. We turn the DistanceJoint2D off.
@@ -138,6 +133,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "HookPoint" && !distanceJoint.enabled)
+        {
+            withinHookRadius = false;
+        }
+    }
+
     /// <summary>
     /// Casts a box directly under the player character, then checks for if that box collides with anything from jumpableGround (currently set to Layer: Ground).
     /// </summary>
@@ -148,13 +151,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks for if the player is actively swinging, which is based on the following condition:
-    ///     Are we presing the associated button, we are within the Trigger of a Hook Point, and we are in the air.
+    /// Checks for if the player can swing, which is based on the following condition:
+    ///     We are within the Trigger of a Hook Point, and we are in the air.
     /// </summary>
     /// <returns></returns>
-    private bool isSwinging()
+    private bool canSwing()
     {
         // TODO: Change the Input to have a field such that the button is configurable.
-        return Input.GetKey(KeyCode.LeftShift) && withinHookRadius && !isGrounded();
+        return withinHookRadius && !isGrounded();
     }
 }
