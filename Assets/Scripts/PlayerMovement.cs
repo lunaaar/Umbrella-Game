@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     
     // Speed Variables
-
+    [Header("Movement")]
     /// <summary>
     /// Base movement speed for the player. Only effects horizontal movement.
     /// </summary>
@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public LayerMask jumpableGround;
 
+
+    [Header("Boolean Values")]
     /// <summary>
     /// Boolean value that is true when we the conditions are met that allow us to perform a hook.
     ///      Current Condition: are we within a set radius of a Hook Point
