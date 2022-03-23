@@ -33,9 +33,9 @@ public static class SaveSystem
 
         } else
         {
-
+            SaveData data = new SaveData(0);
             Debug.LogError("Save file not found in " + path);
-            return null;
+            return data;
 
         }
         
