@@ -5,6 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
+   
+
+    //Start method that will update the text of load save
+    void Start()
+    {
+       
+
+    }
+
     //Runs on play button click
     public void PlayGame()
     {
