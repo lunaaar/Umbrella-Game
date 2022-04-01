@@ -6,6 +6,7 @@ TagManager:
   tags:
   - HookPoint
   - Ground
+  - WindCurrent
   - MM
   layers:
   - Default
