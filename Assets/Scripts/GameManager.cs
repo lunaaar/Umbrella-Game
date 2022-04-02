@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance = null;
 
+    
+
     //Happens Before Start
     private void Awake()
     {
