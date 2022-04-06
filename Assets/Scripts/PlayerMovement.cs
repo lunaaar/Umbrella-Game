@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     // References to Other Components
 
-    private Rigidbody2D rigidBody;
+    public Rigidbody2D rigidBody;
     private CapsuleCollider2D capsuleCollider;
     private DistanceJoint2D distanceJoint;
     private SpriteRenderer spriteRenderer;
@@ -121,16 +121,6 @@ public class PlayerMovement : MonoBehaviour
             //If we do trigger properly, allow the option to hook and set the rigidbody of the distance joint to the hookpoint.
             withinHookRadius = true;
             distanceJoint.connectedBody = collision.attachedRigidbody;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == "WindCurrent" && !isGrounded() && Input.GetKey(KeyCode.K))
-        {
-
-            Vector2 test = new Vector2(Mathf.Sin(Mathf.Deg2Rad * Mathf.Abs(collision.transform.rotation.eulerAngles.z)), Mathf.Cos(Mathf.Deg2Rad * Mathf.Abs(collision.transform.rotation.eulerAngles.z))) * 12;
-            rigidBody.AddForce(test, ForceMode2D.Force);
         }
     }
 
