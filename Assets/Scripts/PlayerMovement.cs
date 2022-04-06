@@ -68,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // TODO: add condition that input is only taken when we are not actively hooking.
         float horizontalInput;
         if (canMove)
         {
@@ -76,16 +75,6 @@ public class PlayerMovement : MonoBehaviour
             horizontalInput = Input.GetAxisRaw("Horizontal");
             rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
         }
-        else
-        {
-            //rigidBody.velocity = new Vector2(rigidBody.velocity.x, rigidBody.velocity.y);
-        }
-
-        //Multiplies the direction by our speed, then feeds that plus our current y velocity to our rigidbody so it only effects our x direction.
-        //rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
-
-        //Debug.Log(rigidBody.velocity.x);
-
         spriteRenderer.sprite = baseSprite;
 
         //Checks if the player is grounded, if so resets our ability to have the option to hook.
@@ -132,6 +121,16 @@ public class PlayerMovement : MonoBehaviour
             //If we do trigger properly, allow the option to hook and set the rigidbody of the distance joint to the hookpoint.
             withinHookRadius = true;
             distanceJoint.connectedBody = collision.attachedRigidbody;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "WindCurrent" && !isGrounded() && Input.GetKey(KeyCode.K))
+        {
+
+            Vector2 test = new Vector2(Mathf.Sin(Mathf.Deg2Rad * Mathf.Abs(collision.transform.rotation.eulerAngles.z)), Mathf.Cos(Mathf.Deg2Rad * Mathf.Abs(collision.transform.rotation.eulerAngles.z))) * 12;
+            rigidBody.AddForce(test, ForceMode2D.Force);
         }
     }
 
