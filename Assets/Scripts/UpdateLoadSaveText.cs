@@ -10,7 +10,7 @@ public class UpdateLoadSaveText : MonoBehaviour
     void Start()
     {
         TextMeshProUGUI myText = gameObject.GetComponent<TextMeshProUGUI>();
-        SaveData save = SaveSystem.LoadSlot();
+        SaveData save = SaveSystem.load1();
 
         switch (save.level)
         {
