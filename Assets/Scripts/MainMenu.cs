@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGame()
     {
-        SaveData data = SaveSystem.LoadSlot();
+        SaveData data = SaveSystem.load1();
         SceneManager.LoadScene(data.level);
     }
 }
