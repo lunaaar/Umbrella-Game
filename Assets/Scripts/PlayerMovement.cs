@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         //just a debug implementation of Save so we can test loading
         if (Input.GetKey(KeyCode.U))
         {
-            SaveSystem.SaveSlot();
+            SaveSystem.save1();
             Debug.Log("Game Saved");
         }
 

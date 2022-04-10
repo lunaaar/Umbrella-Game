@@ -3,12 +3,11 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
-public static class SaveSystem
+public static class SaveSystem : object
 {
-    public static void SaveSlot()
+    public static void SaveSlot(string path)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/save.data";
         Debug.Log(path);
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -19,9 +18,9 @@ public static class SaveSystem
 
     }
 
-    public static SaveData LoadSlot()
+    public static SaveData LoadSlot(string path)
     {
-        string path = Application.persistentDataPath + "/save.data";
+        
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -40,5 +39,42 @@ public static class SaveSystem
         }
         
 
+    }
+
+
+    public static SaveData load1()
+    {
+        string path = Application.persistentDataPath + "/slot1.data";
+        return LoadSlot(path);
+    }
+
+    public static SaveData load2()
+    {
+        string path = Application.persistentDataPath + "/slot2.data";
+        return LoadSlot(path);
+    }
+
+    public static SaveData load3()
+    {
+        string path = Application.persistentDataPath + "/slot3.data";
+        return LoadSlot(path);
+    }
+
+    public static void save1()
+    {
+        string path = Application.persistentDataPath + "/slot1.data";
+        SaveSlot(path);
+    }
+
+    public static void save2()
+    {
+        string path = Application.persistentDataPath + "/slot2.data";
+        SaveSlot(path);
+    }
+
+    public static void save3()
+    {
+        string path = Application.persistentDataPath + "/slot3.data";
+        SaveSlot(path);
     }
 }
