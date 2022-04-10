@@ -36,4 +36,22 @@ public class LoadMenu : MonoBehaviour
         SceneManager.LoadScene(data.level);
 
     }
+
+    public void save1()
+    {
+        SaveSystem.save1();
+        Debug.Log("Game Saved");
+    }
+
+    public void save2()
+    {
+        SaveSystem.save2();
+        Debug.Log("Game Saved");
+    }
+
+    public void save3()
+    {
+        SaveSystem.save3();
+        Debug.Log("Game Saved");
+    }
 }
