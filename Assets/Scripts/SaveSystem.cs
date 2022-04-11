@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
-public static class SaveSystem
+public static class SaveSystem : object
 {
     public static void SaveSlot(string path)
     {

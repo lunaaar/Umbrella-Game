@@ -20,9 +20,9 @@ public class PlayerMovement : MonoBehaviour
 
     // References to Other Components
 
-    private Rigidbody2D rigidBody;
-    private CapsuleCollider2D capsuleCollider;
-    private DistanceJoint2D distanceJoint;
+    public Rigidbody2D rigidBody;
+    private BoxCollider2D boxCollider;
+    public DistanceJoint2D distanceJoint;
     private SpriteRenderer spriteRenderer;
 
     /// <summary>
@@ -45,19 +45,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool canMove;
 
-    //Sprite Variables, used for testing purposes. Will have to encorperate something later but will almost certainly be removed or changed.
-    // TODO: Look into this.
-    public Sprite baseSprite;
-    public Sprite secondSprite;
+
+    void Awake()
+    {
+        rigidBody = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        distanceJoint = GetComponent<DistanceJoint2D>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = this.GetComponent<Rigidbody2D>();
-        capsuleCollider = this.GetComponent<CapsuleCollider2D>();
-        distanceJoint = this.GetComponent<DistanceJoint2D>();
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
-
         //Sets the anchor point to us then turns the Joint off.
         distanceJoint.connectedBody = rigidBody;
         distanceJoint.enabled = false;
@@ -75,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
             horizontalInput = Input.GetAxisRaw("Horizontal");
             rigidBody.velocity = new Vector2(horizontalInput * moveSpeed, rigidBody.velocity.y);
         }
-        spriteRenderer.sprite = baseSprite;
 
         //Checks if the player is grounded, if so resets our ability to have the option to hook.
         if (isGrounded())
@@ -113,6 +110,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Move(float move)
+    {
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Checks to see if we collide with a Trigger specifically with the tag HookPoint.
@@ -124,31 +126,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == "WindCurrent" && !isGrounded() && Input.GetKey(KeyCode.K))
-        {
-
-            Vector2 test = new Vector2(Mathf.Sin(Mathf.Deg2Rad * Mathf.Abs(collision.transform.rotation.eulerAngles.z)), Mathf.Cos(Mathf.Deg2Rad * Mathf.Abs(collision.transform.rotation.eulerAngles.z))) * 12;
-            rigidBody.AddForce(test, ForceMode2D.Force);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "HookPoint" && !distanceJoint.enabled)
-        {
-            withinHookRadius = false;
-        }
-    }
-
     /// <summary>
     /// Casts a box directly under the player character, then checks for if that box collides with anything from jumpableGround (currently set to Layer: Ground).
     /// </summary>
     /// <returns>returns true if a collision happens (meaning we are touching the ground), false if there is no collision.</returns>
     private bool isGrounded()
     {
-        return Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
     /// <summary>
@@ -159,6 +143,12 @@ public class PlayerMovement : MonoBehaviour
     private bool canSwing()
     {
         // TODO: Change the Input to have a field such that the button is configurable.
+
         return withinHookRadius && !isGrounded();
+    }
+
+    public void setWithinHookRadius(bool r)
+    {
+        withinHookRadius = r;
     }
 }
