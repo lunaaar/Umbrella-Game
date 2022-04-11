@@ -37,7 +37,6 @@ public class Settings : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = PlayerPrefs.GetInt("resolution");
         resolutionDropdown.RefreshShownValue();
-        //setResolution(PlayerPrefs.GetInt("resolution"));
     }
     
     public void SetVolume (float volume)
@@ -52,8 +51,9 @@ public class Settings : MonoBehaviour
 
     public void setResolution(int resolutionIndex)
     {
+        PlayerPrefs.SetInt("resolution", resolutionIndex);
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        PlayerPrefs.SetInt("resolution", resolutionIndex);
+        
     }
 }
