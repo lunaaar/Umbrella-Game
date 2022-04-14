@@ -2810,7 +2810,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 932976799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfda5e62cda9a5e43b89f6d556d6a182, type: 3}
+  m_Script: {fileID: 11500000, guid: 969b8b429a681a740a828d4860b8a754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!222 &932976803
@@ -3099,7 +3099,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1030035746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfda5e62cda9a5e43b89f6d556d6a182, type: 3}
+  m_Script: {fileID: 11500000, guid: 0176427b44c6c61439e8befe1699314f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!222 &1030035750
@@ -3196,7 +3196,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 527352615}
         m_TargetAssemblyTypeName: LoadMenu, Assembly-CSharp
-        m_MethodName: load1
+        m_MethodName: load3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4618,7 +4618,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 527352615}
         m_TargetAssemblyTypeName: LoadMenu, Assembly-CSharp
-        m_MethodName: load1
+        m_MethodName: load2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
