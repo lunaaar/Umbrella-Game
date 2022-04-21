@@ -16,9 +16,13 @@ List all the features of your application.
 
 ## Getting Started
 ### Installation and Setup
-List all the steps on how to install and setup your project
+Go to the With The Wind v1.0.0 release on github (Right side of this window)
+Download the WithTheWind.zip file from the release
+Extract the contents to any directory
+
 ### Run
-List all the steps on how to run your project
+Open the new WithTheWind folder
+Launch the UmbrellaParkourGame exe to play the game!
 
 ## Demo video
 
