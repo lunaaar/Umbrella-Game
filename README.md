@@ -16,7 +16,7 @@ List all the features of your application.
 
 ## Getting Started
 ### Installation and Setup
-1. Go to the With The Wind v1.0.0 release on github (Right side of this window)
+1. Go to the With The Wind v1.0.0 release on github [Click Here!](https://github.com/lunaaar/Umbrella-Game/releases/tag/Release%2FDownload)
 2. Download the WithTheWind.zip file from the release
 3. Extract the contents to any directory
 
