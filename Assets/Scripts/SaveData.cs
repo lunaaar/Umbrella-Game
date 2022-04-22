@@ -9,15 +9,16 @@ public class SaveData
 {
     
     public int level; //current level
-    //public int death; //total number of deaths?
     public string date; // last time the game was saved
 
+    //creates a save data object
     public SaveData()
     {
         level = SceneManager.GetActiveScene().buildIndex;
         date = System.DateTime.UtcNow.ToLocalTime().ToString("m/d/yy  hh:mm");
     }
 
+    //creates a save data object with a specific level
     public SaveData(int level)
     {
         this.level = level;

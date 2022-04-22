@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+//a class that read the info from the save slot to update the appropriate UI element in the save/load game menus
 public class UpdateSlot2Text : MonoBehaviour
 {
     // Start is called before the first frame update
